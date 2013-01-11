@@ -1,0 +1,31 @@
+<html xmlns:py="http://genshi.edgewall.org/"
+  xmlns:i18n="http://genshi.edgewall.org/i18n"
+  xmlns:xi="http://www.w3.org/2001/XInclude"
+  py:strip="">
+
+  <xi:include href="../util.html" />
+
+  <py:def function="page_title">Link finder</py:def>
+
+  <py:match path="primarysidebar">
+    <li class="widget-container boxed widget_text">
+      <h4>Finding links</h4>
+      <p>
+      </p>
+    </li>
+  </py:match>
+
+  <div py:match="content">
+      <h1>Link Finder</h1>
+  </div>
+
+  <xi:include href="../../layout.html" />
+
+  <py:def function="optional_footer">
+    <script type='text/javascript'>
+    </script>
+  </py:def>
+</html>
+
+
+
