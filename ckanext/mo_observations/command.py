@@ -1,11 +1,13 @@
 import logging
 
-from .model import init_tables
+
+from ckanext.mo_observations.model import init_tables
+from ckanext.mo_observations.lib.metoffice import MetOffice
+
+
 from pylons import config
 from ckan.lib.cli import CkanCommand
 
-# No other CKAN imports allowed until _load_config is run,
-# or logging is disabled
 
 log = None
 
@@ -20,7 +22,11 @@ class UpdateData(CkanCommand):
 
     def __init__(self, name):
         super(UpdateData, self).__init__(name)
-
+        self.parser.add_option('-t', '--test',
+                               action='store_true',
+                               default=False,
+                               dest='test',
+                               help='Whether to use local test data instead of remote data')
 
     def command(self):
         import ckanclient
@@ -38,4 +44,10 @@ class UpdateData(CkanCommand):
         init_tables()
         log.info("Database initialised")
 
+        key = config.get("datapoint.api_key")
+        if not key:
+            log.error("No API Key was found in config, please specify 'datapoint.api_key'")
+            return
 
+        mo = MetOffice(key, log)
+        mo.process(self.options.test)

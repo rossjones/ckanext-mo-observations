@@ -21,6 +21,7 @@ setup(
 	zip_safe=False,
 	install_requires=[
 		'requests==0.14',
+		'python-dateutil'
 	],
 	entry_points=\
 	"""

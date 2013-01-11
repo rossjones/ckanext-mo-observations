@@ -18,6 +18,27 @@ def make_uuid():
 
 metadata = MetaData()
 
+class TimeStep(object):
+
+    def __init__(self, **kwargs):
+        for k,v in kwargs.items():
+            setattr(self, k, v)
+
+    @classmethod
+    def find(cls, timestamp):
+        q = model.Session.query(TimeStep).filter(TimeStep.when==timestamp)
+        return q.first()
+
+    def __str__(self):
+        return u"<Ruleset: %s, %s>" % (self.publisher_name, self.url_regex)
+
+timestep_table = Table('mo_timesteps', metadata,
+                      Column('id', types.UnicodeText, primary_key=True,
+                             default=make_uuid),
+                      Column('when', types.DateTime),
+                )
+mapper(TimeStep, timestep_table)
+
 """
 class Ruleset(object):
 
